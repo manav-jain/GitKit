@@ -1,6 +1,7 @@
 const { App } = require('@slack/bolt');
 const { Octokit } = require('@octokit/rest');
 const dotenv = require('dotenv');
+const http = require('http'); // Added minimal HTTP server for Render health checks
 
 // Load environment variables
 dotenv.config();
@@ -626,6 +627,30 @@ app.error(async (error) => {
     process.exit(1);
   }
   
+  // Added minimal HTTP server for Render health checks while keeping Socket Mode logic unchanged
+  const healthPort = parseInt(process.env.PORT || '0', 10) || 10000;
+  const healthHost = '0.0.0.0';
+
+  const healthServer = http.createServer((req, res) => {
+    if (req.method === 'GET' && req.url === '/health') {
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.end('OK');
+      return;
+    }
+
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('Not Found');
+  });
+
+  healthServer.listen(healthPort, healthHost, () => {
+    console.log(`✅ Health check server listening on http://${healthHost}:${healthPort}/health`);
+  });
+
+  healthServer.on('error', (error) => {
+    console.error('❌ Health check server failed to start:', error);
+    process.exit(1);
+  });
+
   await app.start();
   console.log('⚡️ Slack PR Approval Bot is running!');
   console.log('📝 Mention the bot in a thread with a PR reference to approve it.');

@@ -1,22 +1,27 @@
-services:
-  - type: web
-    name: slack-pr-approval-bot
-    env: node
-    plan: free
-    buildCommand: npm install
-    startCommand: npm start
-    envVars:
-      - key: SLACK_BOT_TOKEN
-        sync: false
-      - key: SLACK_APP_TOKEN
-        sync: false
-      - key: SLACK_SIGNING_SECRET
+# Exported from Render on 2025-11-12T07:35:45Z
+version: "1"
+projects:
+- name: GitKit
+  environments:
+  - name: Production
+    services:
+    - type: web
+      name: GitKit
+      runtime: node
+      repo: https://github.com/manav-jain/GitKit
+      plan: free
+      envVars:
+      - key: DEFAULT_REPO
         sync: false
       - key: GITHUB_TOKEN
         sync: false
-      - key: DEFAULT_REPO
+      - key: SLACK_SIGNING_SECRET
         sync: false
-        optional: true
-      - key: NODE_ENV
-        value: production
-
+      - key: SLACK_APP_TOKEN
+        sync: false
+      - key: SLACK_BOT_TOKEN
+        sync: false
+      region: virginia
+      buildCommand: npm install
+      startCommand: npm start
+      autoDeployTrigger: commit
