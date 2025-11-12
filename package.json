@@ -1,0 +1,33 @@
+{
+  "name": "gitkit",
+  "version": "1.0.0",
+  "description": "Slack bot for approving GitHub pull requests",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "jest"
+  },
+  "keywords": [
+    "slack",
+    "bot",
+    "github",
+    "pull-request",
+    "pr",
+    "approval"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "@slack/bolt": "^3.17.0",
+    "@octokit/rest": "^20.0.2",
+    "dotenv": "^16.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3",
+    "jest": "^29.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

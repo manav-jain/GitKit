@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: slack-pr-approval-bot
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: SLACK_BOT_TOKEN
+        sync: false
+      - key: SLACK_APP_TOKEN
+        sync: false
+      - key: SLACK_SIGNING_SECRET
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: DEFAULT_REPO
+        sync: false
+        optional: true
+      - key: NODE_ENV
+        value: production
+
